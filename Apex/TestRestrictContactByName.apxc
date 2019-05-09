@@ -1,0 +1,39 @@
+@isTest
+private class TestRestrictContactByName {
+	@isTest static void TestDeleteAccountWithOneOpportunity() {
+
+        Contact acct = new Contact(LastName='INVALIDNAME');
+        insert acct;
+        
+
+        // Perform test
+        Test.startTest();
+        Database.SaveResult result = Database.insert(acct, false);
+        Test.stopTest();
+        // Verify 
+        // In this case the deletion should have been stopped by the trigger,
+        // so verify that we got back an error.
+        System.assert(!result.isSuccess());
+        System.assert(result.getErrors().size() > 0);
+        System.assertEquals('Cannot insert Contact.',
+                             result.getErrors()[0].getMessage());
+    }
+    @isTest static void TestDeleteAccountWithOneOpportunity1() {
+
+        Contact acct = new Contact(LastName='Mike');
+        insert acct;
+        
+
+        // Perform test
+        Test.startTest();
+        Database.SaveResult result = Database.insert(acct, false);
+        Test.stopTest();
+        // Verify 
+        // In this case the deletion should have been stopped by the trigger,
+        // so verify that we got back an error.
+        System.assert(!result.isSuccess());
+        System.assert(result.getErrors().size() > 0);
+        System.assertEquals('Cannot insert Contact.',
+                             result.getErrors()[0].getMessage());
+    }
+}
